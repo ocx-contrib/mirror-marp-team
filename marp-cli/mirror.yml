@@ -1,0 +1,122 @@
+extends: ../mirror-base.yml
+
+name: marp-cli
+
+# Logical index package `marp-team/marp-cli` at the physical path
+# `ghcr.io/ocx-contrib/marp-team/marp-cli`. Namespace is the org handle, not
+# the `marp` brand: `gh api users/marp` is an unrelated personal account, so the
+# vendor rule does not apply. The package is what upstream publishes under
+# (`@marp-team/marp-cli`), not the binary (`marp`).
+target:
+  registry: ghcr.io
+  repository: ocx-contrib/marp-team/marp-cli
+
+source:
+  type: github_release
+  owner: marp-team
+  repo: marp-cli
+  tag_pattern: "^v(?P<version>\\d+\\.\\d+\\.\\d+)$"
+
+# ─── Archive layout ─────────────────────────────────────────────────────────
+#
+# Every archive holds ONE file at its root, no wrapper directory — measured on
+# v4.0.0, v4.2.3, v4.3.1, v4.4.0, v4.5.1:
+#
+#   $ tar tvf marp-cli-v4.5.1-linux.tar.gz
+#   -rwxr-xr-x runner/runner 127142720 2026-09-06 02:36 marp
+#   $ unzip -l marp-cli-v4.5.1-win.zip
+#   113524224  09-06-2026 02:37   marp.exe
+#
+# `strip_components: 0` and a bare ${installPath} PATH; `bin_scan` stays off
+# (it rejects a bare PATH at exit 65) and metadata.json hand-lists `marp`.
+#
+# ─── libc gate (Phase 3.5) — the evidence ──────────────────────────────────
+#
+#   $ file linux/marp            (v4.5.1)
+#   ELF 64-bit LSB executable, x86-64, dynamically linked,
+#     interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0
+#   $ file linux-arm64/marp      (v4.5.1)
+#   ELF 64-bit LSB executable, ARM aarch64, dynamically linked,
+#     interpreter /lib/ld-linux-aarch64.so.1, for GNU/Linux 3.7.0
+#   $ readelf -V … | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -1
+#   GLIBC_2.28                   (both arches; also v4.0.0 x86_64)
+#   $ ldd linux/marp             (v4.5.1)
+#   libatomic.so.1 libdl libm libstdc++.so.6 libgcc_s libpthread libc
+#   $ ldd linux/marp             (v4.0.0) — same set WITHOUT libatomic
+#
+# Dynamic glibc, no musl build upstream → `+libc.glibc` only, no alpine leg.
+#
+# ─── Scope ──────────────────────────────────────────────────────────────────
+#
+#   linux.tar.gz        every v4 release
+#   linux-arm64.tar.gz  from v4.4.0 → platforms.min_version below
+#   mac.tar.gz          Mach-O arm64 on EVERY v4 release (v4.0.0 … v4.5.1
+#                       checked) — upstream ships no Intel macOS build
+#   win.zip             PE32+ x86-64 only — no windows/arm64 build
+#
+# Anchored patterns keep `-linux.tar.gz` from matching `-linux-arm64.tar.gz`.
+assets:
+  "linux/amd64+libc.glibc":
+    - "^marp-cli-v\\d+\\.\\d+\\.\\d+-linux\\.tar\\.gz$"
+  "linux/arm64+libc.glibc":
+    - "^marp-cli-v\\d+\\.\\d+\\.\\d+-linux-arm64\\.tar\\.gz$"
+  darwin/arm64:
+    - "^marp-cli-v\\d+\\.\\d+\\.\\d+-mac\\.tar\\.gz$"
+  windows/amd64:
+    - "^marp-cli-v\\d+\\.\\d+\\.\\d+-win\\.zip$"
+
+asset_type:
+  type: archive
+  strip_components: 0
+
+platforms:
+  "linux/amd64+libc.glibc":
+    runner: ubuntu-latest
+    # Stock images lack libatomic.so.1, NEEDED by v4.5.1 (absent at v4.0.0 —
+    # installing it there is a harmless superset). Same gap as mirror-pnpm.
+    containers: &glibc_containers
+      - image: "ubuntu:24.04"
+        shell: bash
+        setup:
+          - apt-get update
+          - apt-get install -y libatomic1
+      - image: "fedora:40"
+        shell: bash
+        setup:
+          - dnf install -y libatomic
+  "linux/arm64+libc.glibc":
+    runner: ubuntu-24.04-arm
+    min_version: "4.4.0"   # first release shipping linux-arm64.tar.gz
+    containers: *glibc_containers
+  darwin/arm64:
+    runner: macos-14
+    shell: bash
+  windows/amd64:
+    runner: windows-latest
+    shell: pwsh
+
+metadata:
+  default: metadata.json
+
+catalog:
+  logo: logo.svg
+
+versions:
+  # 4.0.2 floor: v4.0.1 is a release with NO assets, and v4.0.0 is superseded
+  # within its own patch line. v3 and older are out of scope.
+  min: "4.0.2"
+  new_per_run: 10
+  poll_interval: "25 1-23/6 * * *"   # poll_stagger.py marp-team/marp-cli
+
+tests:
+  - name: smoke
+    script: marp-cli/tests/smoke.star
+
+annotations:
+  #   $ gh api repos/marp-team/marp-cli/license --jq '.license.spdx_id'
+  #   MIT
+  org.opencontainers.image.licenses: "MIT"
+
+announce:
+  package: marp-team/marp-cli
+  fork: ocx-contrib/index
