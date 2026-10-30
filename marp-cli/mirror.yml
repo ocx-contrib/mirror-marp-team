@@ -89,7 +89,7 @@ platforms:
     min_version: "4.4.0"   # first release shipping linux-arm64.tar.gz
     containers: *glibc_containers
   darwin/arm64:
-    runner: macos-14
+    runner: macos-15
     shell: bash
   windows/amd64:
     runner: windows-latest
