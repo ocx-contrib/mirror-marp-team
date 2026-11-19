@@ -1,40 +1,43 @@
 [metadata]
-lock_version = 3
+lock_version = 4
 declaration_hash_version = 1
 declaration_hash = "sha256:f3ff2c8f4e8127a58ba20d77efddb3013e43604646b6814836d6b9755ab3affd"
-generated_by = "ocx 0.6.5"
-generated_at = "2026-10-25T10:35:03Z"
+generated_by = "ocx 0.6.8"
+generated_at = "2026-11-19T20:56:30Z"
 
 [[tool]]
 name = "cli"
 group = "default"
 repository = "ocx.sh/ocx/cli"
+declared = "ocx.sh/ocx/cli:0.6"
 
 [tool.platforms]
-"darwin/amd64" = "sha256:8050d5dd17d7cd523ce495cdd8ef025b426884bad64c435464385e8b78a4f150"
-"darwin/arm64" = "sha256:69edc3ec67606eda13028682c53b8aee9a13c1e070e3cea201dae9b9c799ce90"
-"linux/amd64" = "sha256:611ab59fe009e3233625fbea54b625bd48333c3a1897b7aef38251a6053c0084"
-"linux/arm64" = "sha256:f3202db5138b14a572929ae3025898a1d07105f0900fb1aea36562c67210a2d5"
-"windows/amd64" = "sha256:12d8ceb4a16c77028a7891be86fadf3daff236359859396463df1a29d7944dd4"
-"windows/arm64" = "sha256:ea57817fadeeb0941e2a200468702be56fe9ca3be2217a3938766495ead0d358"
+"darwin/amd64" = "sha256:f1274ea8dadc4f7eee690ecfa0ea9535f7ee0b5129ad072b89a51db494f7337a"
+"darwin/arm64" = "sha256:3b9332bb29d001fa092a2d7931ffc4e944073050ab97ae78048e4e34079c3f58"
+"linux/amd64" = "sha256:06f825a29e1c899ca75139af2b6622d21748c569bf023f4445017a61ce6148ff"
+"linux/arm64" = "sha256:058f110b4e3abdf503efa94168b601b662d981d5131e08a31b93c9c90fd2e96a"
+"windows/amd64" = "sha256:59dfb86e7e8e504a0eadad2a450910ac61d2ab92074c4bd12e9782983f54583c"
+"windows/arm64" = "sha256:e02631668c2f14683900fd5a8cb6e144ce28a95a96833c78c826671252a4c50c"
 
 [[tool]]
 name = "mirror"
 group = "default"
 repository = "ocx.sh/ocx/mirror"
+declared = "ocx.sh/ocx/mirror:0.6"
 
 [tool.platforms]
-"darwin/amd64" = "sha256:36a1bda46fb8ab2b081f8e25f29948c6cc7b4bc62282a9e57550facfc2521fd3"
-"darwin/arm64" = "sha256:f13c14a38db738eb78f5674217130a3a7de27d06a026cc47e7d646d9b5c58e1e"
-"linux/amd64" = "sha256:e570766737196e0223c9c1d87b4300dbd8292614f21829d556056671d77fcd38"
-"linux/arm64" = "sha256:7604c05aa5831a20f65fce2c07dd25178498239ad60519481072ea31da754bd3"
-"windows/amd64" = "sha256:91a30c8ba57f5a934959111790a8f18f658b9fb0bc2477992a7033e264c68edd"
-"windows/arm64" = "sha256:26b4306eeeb0fde1245b303186b8c06732ca1534a19eaddfedb651da38d43ce3"
+"darwin/amd64" = "sha256:db69582e751337b508d653c6a3b666d3d218b2d5c488d8fb5d7edfe5edff21bf"
+"darwin/arm64" = "sha256:e1209a562b5556c3c8065b979630cc8384b68f46e1de876344220825f4a4c6d2"
+"linux/amd64" = "sha256:9a49defa105b3904d51ffb953fbb1ec3187ed8575c020529a90d06940435b794"
+"linux/arm64" = "sha256:59d8f08b64ce80f3d635500a4910b1be9f7426a9c957d963731bdb554a74d60f"
+"windows/amd64" = "sha256:d5fc382a750332c427467fe32c32af241408cecab1c06917e92799f269b6d2f6"
+"windows/arm64" = "sha256:b2251c21158473c1c0c93a15fb203683c0c936029007b4b4dae5b80832070b47"
 
 [[tool]]
 name = "task"
 group = "default"
 repository = "ocx.sh/go-task/task"
+declared = "ocx.sh/go-task/task:3.53.1"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:958d2f88bec42ed62b3ab8e0435bffe5cecdfdad43055c3a8e7ec376564c4886"
@@ -48,6 +51,7 @@ repository = "ocx.sh/go-task/task"
 name = "actionlint"
 group = "lint"
 repository = "ocx.sh/actionlint/actionlint"
+declared = "ocx.sh/actionlint/actionlint:1.7.12"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:6f439b6d7556a3824840608eaed7416177ade18d9cfa12eb7c3831caf2f44e3f"
@@ -61,6 +65,7 @@ repository = "ocx.sh/actionlint/actionlint"
 name = "gitleaks"
 group = "lint"
 repository = "ocx.sh/gitleaks/gitleaks"
+declared = "ocx.sh/gitleaks/gitleaks:8.30.1"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:34091f2a708065187d4ecd5173cc0e66aea3c1481df0e5f91e3b32fab9c4adcc"
@@ -73,6 +78,7 @@ repository = "ocx.sh/gitleaks/gitleaks"
 name = "grim"
 group = "lint"
 repository = "ocx.sh/grimoire/cli"
+declared = "ocx.sh/grimoire/cli:0.14.3"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:4500862653390bbebd11ed5f6f70ec6d60b8a14a82b8a144156f36ca6f20f55f"
@@ -86,6 +92,7 @@ repository = "ocx.sh/grimoire/cli"
 name = "prek"
 group = "lint"
 repository = "ocx.sh/prek/prek"
+declared = "ocx.sh/prek/prek:0.5.5"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:bd306a2ea4bef50c4118941ceafc274c460a77441c02081242f816a2882e7c32"
@@ -99,6 +106,7 @@ repository = "ocx.sh/prek/prek"
 name = "uv"
 group = "lint"
 repository = "ocx.sh/astral-sh/uv"
+declared = "ocx.sh/astral-sh/uv:0.13.0"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:3019a84eccc4cd68eda3da6a379ae0b9d4517bce40c17c2a654854c7da84b4cd"
@@ -114,6 +122,7 @@ repository = "ocx.sh/astral-sh/uv"
 name = "git-cliff"
 group = "release"
 repository = "ocx.sh/git-cliff/git-cliff"
+declared = "ocx.sh/git-cliff/git-cliff:2.14.2"
 
 [tool.platforms]
 "darwin/amd64" = "sha256:a00b3362112420302cc991973b09f3bea506f774ebf56395c63701540b0e1ad7"
